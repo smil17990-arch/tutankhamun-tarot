@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ツタンカーメン・タロット</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Times New Roman", serif;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0a0e27 100%);
+  min-height: 100vh;
+  color: #d4af37;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  text-align: center;
+  padding: 16px 0 24px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 22px;
+  letter-spacing: 0.15em;
+  color: #d4af37;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 12px;
+  color: rgba(212, 175, 55, 0.7);
+  letter-spacing: 0.1em;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.card-area {
+  position: relative;
+  width: 280px;
+  height: 440px;
+  margin-bottom: 32px;
+  perspective: 1000px;
+}
+
+.card {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: opacity 0.4s ease, transform 0.6s ease;
+  backface-visibility: hidden;
+}
+
+.card-back {
+  background: linear-gradient(135deg, #1a1f3a 0%, #0a0e27 100%);
+  border: 2px solid #d4af37;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px rgba(212, 175, 55, 0.2);
+}
+
+.ankh {
+  font-size: 80px;
+  color: #d4af37;
+  margin-bottom: 24px;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.back-text {
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  color: #d4af37;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.card-front {
+  background: linear-gradient(180deg, #1a1f3a 0%, #0a0e27 100%);
+  border: 2px solid #d4af37;
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  box-shadow: 0 4px 32px rgba(212, 175, 55, 0.3);
+}
+
+#card-image {
+  width: 100%;
+  height: 280px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: #000;
+  transition: transform 0.6s ease;
+}
+
+.position {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-align: center;
+  margin-top: 10px;
+  padding: 4px 0;
+  border-radius: 2px;
+}
+
+.position.upright { color: #d4af37; background: rgba(212, 175, 55, 0.1); }
+.position.reversed { color: #c87b6f; background: rgba(200, 123, 111, 0.15); }
+
+.name {
+  font-size: 16px;
+  text-align: center;
+  margin-top: 8px;
+  color: #f4d77a;
+  line-height: 1.4;
+}
+
+.name .num { color: #d4af37; font-weight: 600; margin-right: 6px; }
+.name .subname { font-size: 11px; color: rgba(244, 215, 122, 0.7); letter-spacing: 0.05em; }
+
+.meaning {
+  font-size: 13px;
+  line-height: 1.7;
+  color: #e8d5a0;
+  margin-top: 10px;
+  padding: 0 4px;
+  text-align: center;
+}
+
+.hidden { opacity: 0; pointer-events: none; }
+.flipping .card-back { transform: rotateY(90deg); }
+
+.btn-draw, .btn-reset {
+  padding: 14px 36px;
+  font-size: 15px;
+  font-family: inherit;
+  letter-spacing: 0.15em;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  color: #0a0e27;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  transition: transform 0.2s;
+}
+
+.btn-draw:active, .btn-reset:active { transform: translateY(1px); }
+
+.btn-reset {
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  box-shadow: none;
+}
+
+footer {
+  text-align: center;
+  padding: 24px 0 0;
+  margin-top: 32px;
+  border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+footer p {
+  font-size: 11px;
+  color: rgba(212, 175, 55, 0.5);
+  letter-spacing: 0.15em;
+}
+
+@media (max-width: 360px) {
+  .card-area { width: 240px; height: 380px; }
+  #card-image { height: 230px; }
+  h1 { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <header>
+    <h1>ツタンカーメン・タロット</h1>
+    <p class="subtitle">少年王の魂が巡る22枚の旅</p>
+  </header>
+
+  <main>
+    <div id="card-area" class="card-area">
+      <div id="card-back" class="card card-back">
+        <div class="ankh">☥</div>
+        <div class="back-text">TUTANKHAMUN<br>TAROT</div>
+      </div>
+      <div id="card-front" class="card card-front hidden">
+        <img id="card-image" src="" alt="">
+        <div id="card-position" class="position"></div>
+        <div id="card-name" class="name"></div>
+        <div id="card-meaning" class="meaning"></div>
+      </div>
+    </div>
+
+    <button id="draw-btn" class="btn-draw">カードを引く</button>
+    <button id="reset-btn" class="btn-reset hidden">もう一度引く</button>
+  </main>
+
+  <footer>
+    <p>機械との共著・無限納豆</p>
+  </footer>
+</div>
+
+<script>
+const cards = [
+  { num: "0", name: "愚者", subname: "幼きツタンカーテン", img: "https://assets.st-note.com/img/1776993270-mdaukjcUoGFV83MrB4qlpZiH.png", upright: "出発、無垢、可能性、信頼。次の一歩を踏み出す時。", reversed: "軽率、未熟、無謀。決断を急がず、足元を見直す時。" },
+  { num: "I", name: "魔術師", subname: "トート神", img: "https://assets.st-note.com/img/1776993321-n4OD8jCIwGSKgRE2LHeMpzBx.png", upright: "意志、創造、技術、集中。言葉が事物を作る瞬間。", reversed: "欺瞞、口先、才能の濫用。技を見せる前に整える時。" },
+  { num: "II", name: "女教皇", subname: "イシス女神", img: "https://assets.st-note.com/img/1776993368-6ybkPmjX0CMuTK9snrFfqp41.png", upright: "直感、神秘、内なる知恵、沈黙の力。", reversed: "秘密の露見、直感の無視、表層的理解。深く聴く時。" },
+  { num: "III", name: "女帝", subname: "ハトホル女神", img: "https://assets.st-note.com/img/1776993405-KhJ8q7SIjX5nBraQ90PbH6LO.png", upright: "豊穣、母性、創造力、感受性。実りの季節。", reversed: "過保護、依存、創造の停滞。豊かさが重荷になる時。" },
+  { num: "IV", name: "皇帝", subname: "若き日のツタンカーメン", img: "https://assets.st-note.com/img/1776993479-LuksZgb9hxJDXOUrR3caj4wf.png", upright: "権威、統治、構造、責任。役割を引き受ける時。", reversed: "暴政、硬直、権力の濫用。柔らかさを思い出す時。" },
+  { num: "V", name: "教皇", subname: "アメン大司祭", img: "https://assets.st-note.com/img/1776993535-MumfVvIyZBC4Ti3dX1WA6KoS.png", upright: "伝統、儀式、制度、教え。型に学ぶ時。", reversed: "形骸化、自由への渇望、反権威。型を疑う時。" },
+  { num: "VI", name: "恋人", subname: "ツタンカーメンとアンケセナーメン", img: "https://assets.st-note.com/img/1776993584-jHZuXxfJ0si53lNvto1IyOeR.png", upright: "愛、結合、選択、調和。心が決まる瞬間。", reversed: "不和、誘惑、不均衡、誤った選択。立ち止まって問う時。" },
+  { num: "VII", name: "戦車", subname: "戦うファラオ", img: "https://assets.st-note.com/img/1776993637-ryhMqbVlAtkwXjpoJEPUCKei.png", upright: "勝利、前進、意志、統御。秩序を進める時。", reversed: "暴走、方向喪失、自制心の欠如。手綱を握り直す時。" },
+  { num: "VIII", name: "力", subname: "セクメト女神", img: "https://assets.st-note.com/img/1776993673-dhNgY7Vmtq6exsvFHIrJz35k.png", upright: "勇気、忍耐、内なる力。蛇を殺さず、抱く時。", reversed: "自信喪失、激情。自分の中の獣と再び向き合う時。" },
+  { num: "IX", name: "隠者", subname: "砂漠の老賢者", img: "https://assets.st-note.com/img/1776993702-atNKI8QnCbmAOLoqURHf3TJV.png", upright: "探求、内省、孤独、導き。一人になる時。", reversed: "孤立、引きこもり、拒絶。誰かと話していい時。" },
+  { num: "X", name: "運命の輪", subname: "ケプリとスカラベ", img: "https://assets.st-note.com/img/1776993789-rV91QFjIZw0NWyKP4ntz7dvx.png", upright: "運命、転換、循環、好機。輪が動き出す時。", reversed: "逆境、停滞、運命への抵抗。流れに身を委ねる時。" },
+  { num: "XI", name: "正義", subname: "マアト女神", img: "https://assets.st-note.com/img/1776993830-L0mYXSyijOZrFobcWsfzGauQ.png", upright: "正義、真理、公正、責任。羽根一枚の重さで測る時。", reversed: "不公正、偏見、責任回避。秤を見直す時。" },
+  { num: "XII", name: "吊るされた男", subname: "逆さのオシリス", img: "https://assets.st-note.com/img/1776995873-xkinCg6wqDWPJVtz9MAc034S.png", upright: "視点の転換、自己犠牲、静止、受容。逆さから見る時。", reversed: "停滞、無駄な犠牲、固執。動けないまま動く時。" },
+  { num: "XIII", name: "死神", subname: "アヌビス", img: "https://assets.st-note.com/img/1776993971-xysmbTE0P1fUApZCkQBe5Vnz.png", upright: "終わり、変容、解放、再生の準備。次へ渡る時。", reversed: "停滞、変化への恐れ、未完。手放せないものを認める時。" },
+  { num: "XIV", name: "節制", subname: "ネフティス女神", img: "https://assets.st-note.com/img/1776994574-nTgLGYBNqh3fMsE1H9U5wIFC.png", upright: "調和、節度、融合、忍耐。両極を繋ぐ水。", reversed: "不均衡、過剰、焦り。流れを整え直す時。" },
+  { num: "XV", name: "悪魔", subname: "大蛇アポピス", img: "https://assets.st-note.com/img/1776994074-0lsqpnFi9dSBHe3LzOEQgVZa.png", upright: "束縛、依存、執着、物質主義。鎖は自分で選んでいる。", reversed: "解放、束縛からの脱却、覚醒。鎖を外す時。" },
+  { num: "XVI", name: "塔", subname: "崩れる神殿", img: "https://assets.st-note.com/img/1776994109-q3jMv2RLwAHQSG4pFfXl9bmB.png", upright: "突発、崩壊、啓示、解放。時代の終わりの音。", reversed: "破局の先送り、変化の回避。崩れる前に動く時。" },
+  { num: "XVII", name: "星", subname: "ヌト女神", img: "https://assets.st-note.com/img/1776994200-oK6gA23QG7MXalOYR5dC1NPU.png", upright: "希望、導き、霊感、癒し。星はあなたの体の一部。", reversed: "絶望、方向喪失、信念の揺らぎ。空を仰ぐ時。" },
+  { num: "XVIII", name: "月", subname: "月神コンス", img: "https://assets.st-note.com/img/1776994236-6uzvUcoqJZxydSlQG5OaI8w0.png", upright: "直感、幻影、不安、潜在意識。不完全な光が導く時。", reversed: "混乱、隠された真実の露見、迷妄からの脱却。" },
+  { num: "XIX", name: "太陽", subname: "ラー神", img: "https://assets.st-note.com/img/1776994262-CguFbTYXK7DLIaGi8csU1jNe.png", upright: "成功、明晰、活力、達成。光の下でまた子供になる時。", reversed: "傲慢、焼き尽くし、過信。光に翳を作らない時。" },
+  { num: "XX", name: "審判", subname: "心臓秤量の儀", img: "https://assets.st-note.com/img/1776994335-TQxlO3bjqhnYfvEr8g7sSiVM.png", upright: "復活、再生、覚醒、赦し。羽根と釣り合う時。", reversed: "自己批判、後悔、目覚めの拒否。自分を赦す時。" },
+  { num: "XXI", name: "世界", subname: "黄金のマスクの王", img: "https://assets.st-note.com/img/1776994368-g1pebGVIDKNSf8TM4FY7ULyx.png", upright: "完成、達成、統合、循環。輪が閉じて、また開く。", reversed: "未完、不完全な終わり、次のサイクルへの躊躇。" }
+];
+
+const cardBack = document.getElementById('card-back');
+const cardFront = document.getElementById('card-front');
+const cardImage = document.getElementById('card-image');
+const cardPosition = document.getElementById('card-position');
+const cardName = document.getElementById('card-name');
+const cardMeaning = document.getElementById('card-meaning');
+const drawBtn = document.getElementById('draw-btn');
+const resetBtn = document.getElementById('reset-btn');
+const cardArea = document.getElementById('card-area');
+
+drawBtn.addEventListener('click', drawCard);
+resetBtn.addEventListener('click', reset);
+
+function drawCard() {
+  const card = cards[Math.floor(Math.random() * cards.length)];
+  const isReversed = Math.random() < 0.5;
+  
+  cardArea.classList.add('flipping');
+  
+  setTimeout(() => {
+    cardImage.src = card.img;
+    cardImage.alt = card.name;
+    cardImage.style.transform = isReversed ? 'rotate(180deg)' : 'rotate(0deg)';
+    cardPosition.textContent = isReversed ? '逆位置' : '正位置';
+    cardPosition.className = 'position ' + (isReversed ? 'reversed' : 'upright');
+    cardName.innerHTML = '<span class="num">' + card.num + '</span> ' + card.name + '<br><span class="subname">' + card.subname + '</span>';
+    cardMeaning.textContent = isReversed ? card.reversed : card.upright;
+    
+    cardBack.classList.add('hidden');
+    cardFront.classList.remove('hidden');
+    cardArea.classList.remove('flipping');
+    
+    drawBtn.classList.add('hidden');
+    resetBtn.classList.remove('hidden');
+  }, 600);
+}
+
+function reset() {
+  cardBack.classList.remove('hidden');
+  cardFront.classList.add('hidden');
+  drawBtn.classList.remove('hidden');
+  resetBtn.classList.add('hidden');
+}
+</script>
+
+</body>
+</html>
